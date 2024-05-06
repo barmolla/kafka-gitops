@@ -31,7 +31,7 @@ keytool -keystore client.truststore.jks -alias CARoot -import -file ca.crt
 ### 4 - Confirmar password
 ### 5 - Confiar en el certificado a agregar (ca.crt extraído del cluster de OpenShift del cluster de AMQ Streams)
 
-## 
+## 6 - Generar ruta para acceso externo al cluster
 
 verificar que kafka.listeners.name[tls]. esté en true y el tipo sea ruta para generar una URL al tópico que sea accesible por fuera del cluster de OpenShift
 
@@ -41,14 +41,35 @@ verificar que kafka.listeners.name[tls]. esté en true y el tipo sea ruta para g
 oc get routes <kafka-cluster-name>-kafka-tls-bootstrap -o=jsonpath='{.status.ingress[0].host}{"\n"}'
 ```
 
-## Producir
+## Producir desde local
 
 ```sh
 bin/kafka-console-producer.sh --broker-list <cluster-kafka-domain>:443 --producer-property security.protocol=SSL --producer-property ssl.truststore.password=<pwd-trustore> --producer-property ssl.truststore.location=./client.truststore.jks --topic <topic-name>
 ```
 
-## Consumir
+## Consumir desde local
 
 ```sh
 bin/kafka-console-consumer.sh --bootstrap-server <cluster-kafka-domain>:443 --consumer-property security.protocol=SSL --consumer-property ssl.truststore.password=<pwd-trustore> --consumer-property ssl.truststore.location=./client.truststore.jks --topic <topic-name> --from-beginning
 ```
+
+## Producir desde cluster
+
+oc run kafka-producer -ti \
+--image=registry.redhat.io/amq-streams/kafka-36-rhel8:2.6.0 \
+--rm=true \
+--restart=Never \
+-- bin/kafka-console-producer.sh \
+--bootstrap-server my-cluster-kafka-bootstrap:9092 \
+--topic my-topic
+
+## Consumir desde cluster
+
+oc run kafka-consumer -ti \
+--image=registry.redhat.io/amq-streams/kafka-36-rhel8:2.6.0 \
+--rm=true \
+--restart=Never \
+-- bin/kafka-console-consumer.sh \
+--bootstrap-server my-cluster-kafka-bootstrap:9092 \
+--topic my-topic \
+--from-beginning
