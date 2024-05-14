@@ -2,7 +2,8 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
   name: demo-cluster
-  namespace: kafka
+  labels:
+    app: desa-kafka
 spec:
   entityOperator:
     topicOperator: {}

@@ -2,4 +2,6 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
   name: demo-cluster
+  labels:
+    app: desa-kafka
   namespace: qa-kafka
