@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
 - ../../base
 - topics/demo-topic.yaml
-patchesStrategicMerge:
+patches:
 - cluster/cr-kafka.yaml
