@@ -4,4 +4,4 @@ resources:
 - ../../base
 - topics/demo-topic.yaml
 patchesStrategicMerge:
-- cluster/cr-kafka.yaml
+- cluster/kafka-cr.yaml
