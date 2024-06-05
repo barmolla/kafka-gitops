@@ -4,7 +4,7 @@ metadata:
   labels:
     strimzi.io/cluster: demo-cluster
   name: demo-topic
-  namespace: homo-amqstreams
+  namespace: homo-kafka
 spec:
   config:
     retention.ms: 604800000
