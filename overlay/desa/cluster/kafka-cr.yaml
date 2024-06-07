@@ -2,3 +2,18 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
   name: amq-cluster
+spec:
+  kafka:
+  resources:
+    limits:
+      memory: 8Gi
+    requests:
+      cpu: 3000m
+      memory: 8Gi
+  zookeeper:
+    resources:
+      limits:
+        memory: 4Gi
+      requests:
+        cpu: 2000m
+        memory: 4Gi
