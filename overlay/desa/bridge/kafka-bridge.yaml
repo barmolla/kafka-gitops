@@ -3,11 +3,13 @@ kind: KafkaBridge
 metadata:
   name: amq-bridge
 spec:
-  #tolerations:
-  #  - key: "dedicated"
-  #    operator: "Equal"
-  #    value: "Kafka"
-  #    effect: "NoSchedule"
+  template:
+    pod:
+      tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "Kafka"
+          effect: "NoSchedule"
   replicas: 1
   resources:
     limits:
