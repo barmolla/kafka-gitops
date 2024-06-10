@@ -5,3 +5,4 @@ resources:
 - topics/demo-topic.yaml
 patchesStrategicMerge:
 - cluster/kafka-cr.yaml
+- bridge/kafka-bridge.yaml

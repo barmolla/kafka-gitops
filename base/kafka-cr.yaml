@@ -5,7 +5,6 @@ metadata:
 spec:
   kafka:
     version: 3.6.0
-    replicas: 3
     listeners:
     - name: plain
       port: 9092
@@ -43,15 +42,6 @@ spec:
 #        configMapKeyRef:
 #          name: kafka-metrics
 #          key: kafka-metrics-config.yml
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: dedicated
-            operator: In
-            values:
-            - Kafka
   zookeeper:
     replicas: 1
     readinessProbe:
@@ -72,8 +62,32 @@ spec:
 #          name: kafka-metrics
 #          key: zookeeper-metrics-config.yml
   entityOperator:
-    topicOperator: {}
-    userOperator: {}
+    topicOperator:
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          cpu: '1'
+          memory: 1Gi
+      readinessProbe:
+        initialDelaySeconds: 60
+        timeoutSeconds: 10
+      livenessProbe:
+        initialDelaySeconds: 60
+        timeoutSeconds: 10
+    userOperator:
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          cpu: '1'
+          memory: 1Gi
+      readinessProbe:
+        initialDelaySeconds: 60
+        timeoutSeconds: 10
+      livenessProbe:
+        initialDelaySeconds: 60
+        timeoutSeconds: 10
 #  kafkaExporter:
 #    topicRegex: ".*"
 #    groupRegex: ".*"
