@@ -13,11 +13,13 @@ spec:
             values:
             - Kafka
   kafka:
-    tolerations:
-      - key: "dedicated"
-        operator: "Equal"
-        value: "Kafka"
-        effect: "NoSchedule"
+    template:
+      pod:
+        tolerations:
+          - key: "dedicated"
+            operator: "Equal"
+            value: "Kafka"
+            effect: "NoSchedule"
     replicas: 2
     storage:
       size: 10Gi
